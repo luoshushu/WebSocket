@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>webSocket</title>
+  <style>
+    div#content{
+    width: 400px;
+    height: 200px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius:  10px;
+    overflow: auto;
+  }
+  #sendCtrls{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="content">
+    <div id="log"></div>
+  </div>
+  <div id="sendCtrls">
+    <input id="name" name="name" type="text" />
+    <button id="button">发送</button>
+  </div>
+
+  <script>
+    var name = prompt('你叫什么名字？？？')
+    var sock = new WebSocket('ws://localhost:3000');
+    var log = document.getElementById('log')
+    sock.onopen = (params) => {
+      // 发送名字
+      sock.send(JSON.stringify({
+        type: 'name',
+        data: name
+      }))
+    }
+    // 接收数据
+    sock.onmessage = function (ms) {
+      var json = JSON.parse(ms.data)
+      log.innerHTML += `${json.name}    <${json.time}> <br>${json.data}<br>`
+    }
+    // 提交输入的数据
+    document.getElementById('button').onclick = function () {
+      var text = document.getElementById('name').value
+      // sock.send(text)
+      // 时间
+      var date = new Date();
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds(); 
+
+      sock.send(JSON.stringify({
+        type: 'message',
+        data: text,
+        time: h+m+s
+      }))
+
+      log.innerHTML +=  `自己    <${h+m+s}> <br>${text}<br>`
+      document.getElementById('name').value = ''
+    }
+  </script>
+</body>
+
+</html>

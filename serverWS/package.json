@@ -1,0 +1,22 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "测试websoceket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "852835916@qq.com"
+  },
+  "keywords": [
+    "websocket"
+  ],
+  "author": "苏宋霖",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "ws": "^6.1.3"
+  }
+}
